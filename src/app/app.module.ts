@@ -9,7 +9,7 @@ import { FeedListComponent } from './feed-list/feed-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatListIconCssMatStyler } from '@angular/material/list';
 import { AngularFireModule } from '@angular/fire';
 // import { AngularFirestoreModule } from '@angular/fire/firestore/public_api';
 import { environment } from '../environments/environment';
@@ -18,6 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent, FeedListComponent, PageNotFoundComponent],
@@ -32,6 +33,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MatSnackBarModule,
     DragDropModule,
     MatProgressSpinnerModule,
+    MatIconModule,
 
     AngularFireModule.initializeApp(
       environment.firebaseConfig,

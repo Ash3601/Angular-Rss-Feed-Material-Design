@@ -6,13 +6,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { merge, fromEvent, Observable, Observer } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-// import { ConsoleReporter } from 'jasmine';
-
-export interface PeriodicElement {
-  feed: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [{ feed: 'blah' }];
+import {
+  AngularFireList,
+  AngularFireObject,
+} from '@angular/fire/database/database';
 
 @Component({
   selector: 'app-feed-list',
@@ -20,23 +17,17 @@ const ELEMENT_DATA: PeriodicElement[] = [{ feed: 'blah' }];
   styleUrls: ['./feed-list.component.css'],
 })
 export class FeedListComponent implements OnInit, OnDestroy {
-  @Output() updateValue: EventEmitter<any> = new EventEmitter();
-
-  displayedColumns: string[] = ['URL'];
-  dataSource = ELEMENT_DATA;
+  /* VARIABLES */
   showSpinner = false;
   feeds: any;
-  savedFeeds;
-  feedKeys;
-  feedValue = null;
-  currentFeedKey = null;
-  isOnline = false;
-  keyStrokes;
-  isUpdating = false;
+  savedFeeds: Feed[];
+  feedKeys: string[];
+  feedValue: string = ''; // used to get the value from the Input
+  currentFeedKey: string = null; // used to update the feed
+  keyStrokes: string;
+  isUpdating: boolean = false;
 
-  showInfo(val) {
-    console.log(val);
-  }
+  /* DRAG AND DROP FUNCTIONS */
 
   // Drag and Drop
   drop(event: CdkDragDrop<string[]>) {
@@ -44,36 +35,17 @@ export class FeedListComponent implements OnInit, OnDestroy {
     this.feedService.editFeeds(this.savedFeeds, this.feedKeys);
   }
 
-  onKey(event: any) {
-    this.keyStrokes = event.target.value;
-    console.log('Keystrokes', this.keyStrokes);
-    if (this.keyStrokes.length == 0) {
-      this.isUpdating = false;
-      document.getElementById('btn-add').innerHTML = 'Add';
-    }
+  /* UTILITY FUNCTIONS */
+
+  clearInputField() {
+    // this.
+    this.changeLabelName('text-input', '');
   }
 
-  edit(id: string, val: string) {
-    this.currentFeedKey = id;
-    this.isUpdating = true;
-    document.getElementById('btn-add').innerHTML = 'Update';
-    this.updateValue.emit('bla');
-    this.changeLabelName('text-input', val);
-    console.log(val);
-  }
-  delete(id: string, idx: number) {
-    this.feedService.deleteFeed(id).catch((err) => console.log(err));
-    this.feedKeys.splice(idx);
-    this.savedFeeds.splice(idx);
-    let snackBarRef = this._snackBar.open('URL deleted successfully');
-  }
   changeLabelName(lbl, val) {
     var obj: any = document.getElementById(lbl);
     obj.value = val;
   }
-
-  @Output('cdkDropListDropped')
-  dropped: EventEmitter<CdkDragDrop<any, any>> = new EventEmitter();
 
   validURL(str) {
     var pattern = new RegExp(
@@ -88,12 +60,41 @@ export class FeedListComponent implements OnInit, OnDestroy {
     return !!pattern.test(str);
   }
 
+  onKey(event: any) {
+    this.keyStrokes = event.target.value;
+    if (this.keyStrokes.length == 0) {
+      this.isUpdating = false;
+      document.getElementById('btn-add').innerHTML = 'Add';
+    }
+  }
+  /* ------------------------ */
+
+  /* CRUD OPERATIONS */
+
+  create(feed: Feed) {
+    this.feedService.createFeeds(feed);
+  }
+
+  edit(id: string, val: string) {
+    this.currentFeedKey = id;
+    this.isUpdating = true;
+    document.getElementById('btn-add').innerHTML = 'Update';
+    // this.updateValue.emit('bla');
+    this.changeLabelName('text-input', val);
+  }
+
+  delete(id: string, idx: number) {
+    this.feedService.deleteFeed(id).catch((err) => console.log(err));
+    this.feedKeys.splice(idx);
+    this.savedFeeds.splice(idx);
+    let snackBarRef = this._snackBar.open('URL deleted successfully');
+  }
+
   addFeedToDb(title: string, $event) {
     event.preventDefault();
     this.feedValue = title;
     if (this.validURL(this.feedValue) == false) {
       let snackBarRef = this._snackBar.open('URL is not valid');
-
       return;
     }
     var tmpFeed = { id: title, feed: title };
@@ -113,43 +114,17 @@ export class FeedListComponent implements OnInit, OnDestroy {
       let snackBarRef = this._snackBar.open('Successfully updated');
     }
   }
-
-  createOnline$() {
-    return merge<boolean>(
-      fromEvent(window, 'offline').pipe(map(() => false)),
-      fromEvent(window, 'online').pipe(map(() => true)),
-      new Observable((sub: Observer<boolean>) => {
-        sub.next(navigator.onLine);
-        sub.complete();
-      })
-    );
-  }
-
+  /* --------------------------------------- */
   constructor(
     private feedService: FeedsService,
-    private _snackBar: MatSnackBar // private connectionService: Connection
-  ) {
-    // this.isOnline = navigator.onLine;
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    // console.log('this.feedService.editFeeds()');
-
-    // console.log(this.feedService.editFeeds());
-    this.createOnline$().subscribe((isOnline) => {
-      this.isOnline = isOnline;
-    });
-    if (!this.isOnline) {
-      // alert('You are offline');
-      this._snackBar.open('You are offline');
-      return;
-    }
-
     this.showSpinner = true;
     this.feeds = this.feedService.getFeeds();
     this.savedFeeds = new Array(this.feeds.length).fill(0);
     this.feedKeys = new Array(this.feeds.length);
-    // console.log('before saved feeds');
     this.feeds.subscribe(
       (res) => {
         var n = res.length;
@@ -171,26 +146,9 @@ export class FeedListComponent implements OnInit, OnDestroy {
         this.showSpinner = false;
       }
     );
-
-    // this.showSpinner = false;
-    // .then((res) => {})
-    // .finally((res) => {
-    //   this.showSpinner = false;
-    // });
-    // this.savedFeeds = this.movies;
-    // for (let i = 0; i < this.feeds.length; i++) {
-    //   console.log('Feed is ', this.feeds[i]['feed']);
-    //   this.savedFeeds[i] = this.feeds[i]['feed'];
-    // }
-    // console.log(this.feeds);
-  }
-  create(feed: Feed) {
-    this.feedService.createFeeds(feed);
   }
 
   ngOnDestroy() {
     this.feeds.unsubscribe();
-    // this.valueChanges.unsubscribe();
-    // this.statusChanges.unsubscribe();
   }
 }

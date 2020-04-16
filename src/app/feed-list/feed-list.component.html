@@ -3,7 +3,7 @@
     class="example-form"
     (keydown.enter)="addFeedToDb(textInput.value, $event)"
   >
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="example-full-width" style="display: inline-block;">
       <mat-label>Add URL</mat-label>
       <input
         id="text-input"
@@ -12,6 +12,17 @@
         #textInput
         (keyup)="onKey($event)"
       />
+      <button
+        *ngIf="keyStrokes.length"
+        mat-button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clearInputField()"
+        type="button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
     <button
@@ -23,26 +34,6 @@
     >
       Add
     </button>
-
-    <!-- <mat-form-field class="example-full-width">
-      <mat-label>Leave a comment</mat-label>
-      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-    </mat-form-field> -->
-
-    <!-- <mat-form-field class="example-full-width">
-          <mat-label>Favorite food</mat-label>
-          <input type="submit" matInput value="Submit" />
-        </mat-form-field> -->
-
-    <!--     
-    <button
-      type="submit"
-      mat-raised-button
-      color="primary"
-      addFeedToDb('titleInput.value')
-    >
-      Submit
-    </button> -->
   </form>
   <div style="min-width: 8rem;">
     <br /><br />
@@ -64,16 +55,5 @@
         </mat-list-item>
       </mat-nav-list>
     </div>
-    <!-- <div cdkDropList id="list" (cdkDropListDropped)="drop($event)">
-      <div *ngFor="let feed of savedFeeds" cdkDrag>
-        <p matLine>{{ feed }}</p>
-        <button mat-icon-button color="primary" (click)="edit('1', '1')">
-          Edit
-        </button>
-        <button mat-icon-button color="warn" (click)="delete('1')">
-          Delete
-        </button>
-      </div>
-    </div> -->
   </div>
 </div>

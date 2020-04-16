@@ -17,13 +17,14 @@ export class FeedsService {
   getFeeds() {
     return this.db.list('feeds').snapshotChanges();
   }
+
   createFeeds(feed: Feed) {
     return this.db.list('feeds').push(feed);
 
     // return this.firestore.collection('feeds').add(feed);
   }
 
-  editFeeds(feeds: Feed[], feedKeys: string) {
+  editFeeds(feeds: Feed[], feedKeys: string[]) {
     for (let i = 0; i < feeds.length; i++) {
       let newFeed = {
         id: '1',
