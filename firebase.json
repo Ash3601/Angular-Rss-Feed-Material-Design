@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "Rss-Feed-List",
+      "public": "dist/Rss-Feed-List",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

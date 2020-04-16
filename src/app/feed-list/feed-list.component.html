@@ -1,0 +1,79 @@
+<div align="center" class="main">
+  <form
+    class="example-form"
+    (keydown.enter)="addFeedToDb(textInput.value, $event)"
+  >
+    <mat-form-field class="example-full-width">
+      <mat-label>Add URL</mat-label>
+      <input
+        id="text-input"
+        matInput
+        placeholder="https://..."
+        #textInput
+        (keyup)="onKey($event)"
+      />
+    </mat-form-field>
+
+    <button
+      id="btn-add"
+      mat-raised-button
+      class="submit-btn"
+      color="primary"
+      (click)="addFeedToDb(textInput.value, $event)"
+    >
+      Add
+    </button>
+
+    <!-- <mat-form-field class="example-full-width">
+      <mat-label>Leave a comment</mat-label>
+      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+    </mat-form-field> -->
+
+    <!-- <mat-form-field class="example-full-width">
+          <mat-label>Favorite food</mat-label>
+          <input type="submit" matInput value="Submit" />
+        </mat-form-field> -->
+
+    <!--     
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      addFeedToDb('titleInput.value')
+    >
+      Submit
+    </button> -->
+  </form>
+  <div style="min-width: 8rem;">
+    <br /><br />
+    <mat-spinner *ngIf="showSpinner"></mat-spinner>
+    <div [hidden]="showSpinner">
+      <mat-nav-list id="list" cdkDropList (cdkDropListDropped)="drop($event)">
+        <mat-list-item *ngFor="let feed of savedFeeds; let i = index" cdkDrag>
+          <p matLine>{{ feed }}</p>
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="edit(feedKeys[i], feed)"
+          >
+            Edit
+          </button>
+          <button mat-icon-button color="warn" (click)="delete(feedKeys[i], i)">
+            Delete
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+    <!-- <div cdkDropList id="list" (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let feed of savedFeeds" cdkDrag>
+        <p matLine>{{ feed }}</p>
+        <button mat-icon-button color="primary" (click)="edit('1', '1')">
+          Edit
+        </button>
+        <button mat-icon-button color="warn" (click)="delete('1')">
+          Delete
+        </button>
+      </div>
+    </div> -->
+  </div>
+</div>
