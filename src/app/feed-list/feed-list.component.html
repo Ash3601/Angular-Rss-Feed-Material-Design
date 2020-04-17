@@ -13,13 +13,13 @@
         (keyup)="onKey($event)"
       />
       <button
-        *ngIf="keyStrokes.length"
         mat-button
         matSuffix
         mat-icon-button
         aria-label="Clear"
         (click)="clearInputField()"
         type="button"
+        *ngIf="keyStrokes || isUpdating"
       >
         <mat-icon>close</mat-icon>
       </button>

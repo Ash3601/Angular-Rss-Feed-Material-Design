@@ -24,13 +24,18 @@ export class FeedsService {
     // return this.firestore.collection('feeds').add(feed);
   }
 
-  editFeeds(feeds: Feed[], feedKeys: string[]) {
-    for (let i = 0; i < feeds.length; i++) {
+  editFeeds(
+    feeds: Feed[],
+    feedKeys: string[],
+    prevIdx: number,
+    curIdx: number
+  ) {
+    for (let i = prevIdx; i <= curIdx; i++) {
       let newFeed = {
         id: '1',
         feed: feeds[i],
       };
-      this.db.object('/feeds/' + feedKeys[i]).set(newFeed);
+      this.db.object('/feeds/' + feedKeys[i]).update(newFeed);
     }
   }
 

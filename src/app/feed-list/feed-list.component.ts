@@ -10,6 +10,7 @@ import {
   AngularFireList,
   AngularFireObject,
 } from '@angular/fire/database/database';
+import { ConnectionService } from 'ng-connection-service';
 
 @Component({
   selector: 'app-feed-list',
@@ -26,16 +27,31 @@ export class FeedListComponent implements OnInit, OnDestroy {
   currentFeedKey: string = null; // used to update the feed
   keyStrokes: string;
   isUpdating: boolean = false;
+  isConnected = true;
+  status: string;
 
   /* DRAG AND DROP FUNCTIONS */
 
   // Drag and Drop
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.savedFeeds, event.previousIndex, event.currentIndex);
-    this.feedService.editFeeds(this.savedFeeds, this.feedKeys);
+    this.feedService.editFeeds(
+      this.savedFeeds,
+      this.feedKeys,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
   /* UTILITY FUNCTIONS */
+  isOnline(): boolean {
+    if (!this.isConnected || this.status === 'OFFLINE') {
+      console.log('Offline');
+      this._snackBar.open('You are offline!');
+      return false;
+    }
+    return true;
+  }
 
   clearInputField() {
     // this.
@@ -76,6 +92,9 @@ export class FeedListComponent implements OnInit, OnDestroy {
   }
 
   edit(id: string, val: string) {
+    if (!this.isOnline()) {
+      return;
+    }
     this.currentFeedKey = id;
     this.isUpdating = true;
     document.getElementById('btn-add').innerHTML = 'Update';
@@ -84,6 +103,9 @@ export class FeedListComponent implements OnInit, OnDestroy {
   }
 
   delete(id: string, idx: number) {
+    if (!this.isOnline()) {
+      return;
+    }
     this.feedService.deleteFeed(id).catch((err) => console.log(err));
     this.feedKeys.splice(idx);
     this.savedFeeds.splice(idx);
@@ -91,6 +113,9 @@ export class FeedListComponent implements OnInit, OnDestroy {
   }
 
   addFeedToDb(title: string, $event) {
+    if (!this.isOnline()) {
+      return;
+    }
     event.preventDefault();
     this.feedValue = title;
     if (this.validURL(this.feedValue) == false) {
@@ -117,10 +142,23 @@ export class FeedListComponent implements OnInit, OnDestroy {
   /* --------------------------------------- */
   constructor(
     private feedService: FeedsService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private connectionService: ConnectionService
+  ) {
+    this.connectionService.monitor().subscribe((isConnected) => {
+      this.isConnected = isConnected;
+      if (this.isConnected) {
+        this.status = 'ONLINE';
+      } else {
+        this.status = 'OFFLINE';
+      }
+    });
+  }
 
   ngOnInit(): void {
+    if (!this.isOnline()) {
+      return;
+    }
     this.showSpinner = true;
     this.feeds = this.feedService.getFeeds();
     this.savedFeeds = new Array(this.feeds.length).fill(0);
