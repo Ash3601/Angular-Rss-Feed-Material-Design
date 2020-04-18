@@ -19,9 +19,20 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MatIconModule } from '@angular/material/icon';
+import { AngularFireAuthModule, AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AuthService } from './auth.service';
+import { FeedsService } from './feeds.service';
 
 @NgModule({
-  declarations: [AppComponent, FeedListComponent, PageNotFoundComponent],
+  declarations: [
+    AppComponent,
+    FeedListComponent,
+    PageNotFoundComponent,
+    UserProfileComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,6 +45,8 @@ import { MatIconModule } from '@angular/material/icon';
     DragDropModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    AngularFirestoreModule,
+    AngularFireAuthModule,
 
     AngularFireModule.initializeApp(
       environment.firebaseConfig,
@@ -44,7 +57,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatListModule,
     // MatListIconCssMatStyler,
   ],
-  providers: [],
+  providers: [AuthService, AngularFireAuth, FeedsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

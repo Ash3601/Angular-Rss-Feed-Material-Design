@@ -1,0 +1,15 @@
+.main {
+  margin-top: 5%;
+}
+
+.mat-button-wrapper {
+  margin: 3%;
+}
+
+mat-raised-button {
+  margin: 3%;
+}
+
+.btn {
+  margin: 0.8rem;
+}

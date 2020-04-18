@@ -1,0 +1,40 @@
+<div class="main" align="center">
+  <div *ngIf="auth.user | async as user; else showLogin">
+    <h1 class="lead">Hello {{ user.displayName }}!</h1>
+    <h1 class="lead">{{ getUserId() }}</h1>
+    <button class="btn" (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+    <p class="lead">Please login.</p>
+    <button
+      id="btn-login"
+      mat-raised-button
+      class="btn"
+      color="primary"
+      (click)="login()"
+    >
+      Login with Google
+    </button>
+  </ng-template>
+  <br />
+  <button
+    id="btn-feed"
+    class="btn"
+    mat-raised-button
+    [routerLink]="['/feedlist']"
+  >
+    Press to go to feeds
+  </button>
+  <br />
+
+  <button
+    id="btn-logout"
+    mat-raised-button
+    class="btn"
+    color="accent"
+    [routerLink]="['/feedlist']"
+    (click)="logout()"
+  >
+    Logout
+  </button>
+</div>
