@@ -23,46 +23,19 @@ Angular, Material UI, Firebase
 
 > Feeds App is a fullstack implementation in Firebase & Angular.
 
-MERN stack is the idea of using Javascript/Node/React for fullstack web development.
 
 ## clone or download
 
 ```terminal
-$ git clone https://github.com/Ash3601/MERN_Hello_World.git
+$ git clone https://github.com/Ash3601/Angular-Rss-Feed-Material-Design.git
 $ npm i
 ```
 
-## project structure
-
-```terminal
-LICENSE
-package.json
-server/
-   package.json
-   .env (to create .env, check [prepare your secret session])
-client/
-   package.json
-...
-```
-
-# Usage (run fullstack app on your machine)
-
-## Prerequirements
-
-- [MongoDB](https://gist.github.com/nrollr/9f523ae17ecdbb50311980503409aeb3)
-- [Node](https://nodejs.org/en/download/) ^10.0.0
-- [npm](https://nodejs.org/en/download/package-manager/)
-
-notice, you need client and server runs concurrently in different terminal session, in order to make them talk to each other
-
-## Client-side usage(PORT: 3000)
+## Client-side usage(PORT: 4000)
 
 ```terminal
 $ npm i       // npm install pacakges
-$ ng run --serve // run it locally
-
-
-## Server-side usage(PORT: 4000)
+$ ng serve --open // run it locally
 
 
 # Dependencies(tech-stacks)
