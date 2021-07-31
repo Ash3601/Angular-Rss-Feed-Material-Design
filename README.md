@@ -1,27 +1,89 @@
-# RssFeedList
+# Feeds Admin App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
+Simple App that uses Angular & Firebase to act as an admin panel for the Android App RSSFeed. This panel helps me to put useful urls, which then parses valuable data related programming news, coding problems and much more in the app.
 
-## Development server
+<h1 align="center">
+🌐 Full Stack
+</h1>
+<p align="center">
+Angular, Material UI, Firebase
+</p>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+<p align="center">
+   <a href="https://travis-ci.com/amazingandyyy/mern">
+      <img src="https://travis-ci.com/amazingandyyy/mern.svg?branch=master" />
+   </a>
+   <a href="https://github.com/amazingandyyy/mern/blob/master/LICENSE">
+      <img src="https://img.shields.io/badge/License-MIT-green.svg" />
+   </a>
+   <a href="https://circleci.com/gh/amazingandyyy/mern">
+      <img src="https://circleci.com/gh/amazingandyyy/mern.svg?style=svg" />
+   </a>
+</p>
 
-## Code scaffolding
+> Feeds App is a fullstack implementation in Firebase & Angular.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+MERN stack is the idea of using Javascript/Node/React for fullstack web development.
 
-## Build
+## clone or download
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```terminal
+$ git clone https://github.com/Ash3601/MERN_Hello_World.git
+$ npm i
+```
 
-## Running unit tests
+## project structure
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```terminal
+LICENSE
+package.json
+server/
+   package.json
+   .env (to create .env, check [prepare your secret session])
+client/
+   package.json
+...
+```
 
-## Running end-to-end tests
+# Usage (run fullstack app on your machine)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Prerequirements
 
-## Further help
+- [MongoDB](https://gist.github.com/nrollr/9f523ae17ecdbb50311980503409aeb3)
+- [Node](https://nodejs.org/en/download/) ^10.0.0
+- [npm](https://nodejs.org/en/download/package-manager/)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+notice, you need client and server runs concurrently in different terminal session, in order to make them talk to each other
+
+## Client-side usage(PORT: 3000)
+
+```terminal
+$ npm i       // npm install pacakges
+$ ng run --serve // run it locally
+
+
+## Server-side usage(PORT: 4000)
+
+
+# Dependencies(tech-stacks)
+
+Angular, Firebase
+
+
+## Standard
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+## BUGs or comments
+
+[Create new Issues](https://github.com/Ash3601/MERN_Hello_World/issues) (preferred)
+
+Email Me: abbasiashin0@gmail.com (welcome, say hi)
+
+## Author
+
+[Ash360](https://ash3601.github.io/Angular-Rss-Feed-Material-Design/)
+
+### License
+
+[MIT]
