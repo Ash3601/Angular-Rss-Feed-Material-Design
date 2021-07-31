@@ -38,6 +38,10 @@ $ npm i       // npm install pacakges
 $ ng serve --open // run it locally
 
 
+## Hosted At
+[link to Admin Panel](https://testfirebaseandroid-f787e.firebaseapp.com)
+
+
 # Dependencies(tech-stacks)
 
 Angular, Firebase
